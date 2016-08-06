@@ -14,7 +14,43 @@ module Tierion
         @confs
       end
 
+      # Checks the validity of the Merkle tree proof and
+      # return true or false
+      def valid?
+        return false if targetHash.blank? || merkleRoot.blank?
+
+        # No siblings, single item tree, so the hash
+        # should also be the root
+        return targetHash == merkleRoot if proof.empty?
+
+        # The target hash (the hash the user submitted)
+        # is always hashed in the first cycle through the
+        # proofs. After that, the proof_hash value will
+        # contain intermediate hashes.
+        proof_hash = targetHash
+
+        proof.each do |p|
+          h = Digest::SHA256.new
+          if p.key?('left')
+            h.update hex2bin(p['left'])
+            h.update hex2bin(proof_hash)
+          elsif p.key?('right')
+            h.update hex2bin(proof_hash)
+            h.update hex2bin(p['right'])
+          else
+            return false
+          end
+          proof_hash = h.hexdigest
+        end
+
+        proof_hash == merkleRoot
+      end
+
       private
+
+      def hex2bin(hex)
+        [hex.to_s].pack('H*')
+      end
 
       def get_confirmations
         @confs = {} if @confs.blank?

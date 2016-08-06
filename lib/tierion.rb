@@ -3,6 +3,7 @@ require 'active_support/core_ext/object/blank.rb'
 require 'active_support/core_ext/numeric'
 require 'active_support/core_ext/integer/time'
 require 'json'
+require 'digest'
 require 'httparty'
 require 'hashie'
 

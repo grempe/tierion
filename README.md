@@ -134,6 +134,16 @@ which are populated from the API. Here is an example:
 }
 ```
 
+You can check the validity of the Merkle Tree proof with `Receipt#valid?`
+which will do the math and hash the target hash with each of the proof hashes and verify that they hash properly and match the `merkleRoot` hash.
+
+This requires no external API access and is done locally.
+
+```
+> r.valid?
+=> true
+```
+
 The `Receipt` returns `anchors` which represent one or more trust
 anchors where your hash has been stored. Currently, the only `anchor`
 returned is `BTCOpReturn` which also gives you a `sourceId`

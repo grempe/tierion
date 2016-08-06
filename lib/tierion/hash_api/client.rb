@@ -95,7 +95,12 @@ module Tierion
           Hashie.symbolize_keys!(receipt)
 
           if receipt.key?(:type) || receipt.key?('@type')
-            Tierion::HashApi::Receipt.new(receipt)
+            r = Tierion::HashApi::Receipt.new(receipt)
+            if h.hash == r.targetHash && r.valid?
+              return r
+            else
+              raise 'Invalid Receipt returned'
+            end
           else
             raise 'Invalid Receipt found'
           end
