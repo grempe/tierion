@@ -22,6 +22,8 @@ Or install it yourself as:
 
 Shell commands start with a `$`, Ruby console commands start with `>`.
 
+### Client Authorization and Authentication
+
 Instantiate a new API client
 
 ```
@@ -42,6 +44,8 @@ $ export TIERION_PASSWORD=my_pass
 > t = Tierion::HashApi::Client.new
 ```
 
+### Send Hash
+
 Create the hash you want to record on the blockchain
 and send it.
 
@@ -52,6 +56,8 @@ and send it.
 > t.send(my_hash)
 => Tierion::HashApi::HashItem ...
 ```
+
+### Hash Items
 
 Now you can take a look at the Array of `HashItem`s.
 
@@ -80,6 +86,8 @@ the seconds since the UNIX epoch. For convenience you can use `HashItem#time` to
 > h.time
 => 2016-08-06 01:53:55 UTC
 ```
+
+### Receipts
 
 You can retrieve an individual `Tierion::HashApi::Receipt`
 for this `HashItem` by passing the `Hashitem` instance as
@@ -208,10 +216,34 @@ You can validate this JSON representation of the receipt by
 submitting it to the [Tierion validation](https://tierion.com/validate)
 web page.
 
-## TODO
+### Block Subscriptions
 
-- Add blockchain receipt subscription functionality.
+You can also create, retrieve, update, and delete 'block subscriptions'.
 
+
+```
+> t = Tierion::HashApi::Client.new
+=> #<Tierion::HashApi::Client ... >
+
+# takes a callback URL to receive payload, returns an ID
+> t.create_block_subscription('https://www.rempe.us/foo')
+=> {:id=>"57a67d59fb16c5bc06f8d4e5"}
+
+# takes an ID of an existing subscription and a new callback URL
+# returns the new `callbackUrl`
+> t.update_block_subscription("57a67d59fb16c5bc06f8d4e5", 'https://www.rempe.us/bar')
+=> {:callbackUrl=>"https://www.rempe.us/bar"}
+
+# takes an ID of an existing subscription, returns
+# the `callbackUrl`
+> t.get_block_subscription("57a67d59fb16c5bc06f8d4e5")
+=> {:callbackUrl=>"https://www.rempe.us/bar"}
+
+# takes an ID of an existing subscription, deletes it,
+# and returns the `callbackUrl` of the subscription deleted.
+> t.delete_block_subscription("57a67d59fb16c5bc06f8d4e5")
+=> {:callbackUrl=>"https://www.rempe.us/bar"}
+```
 
 ## Development
 

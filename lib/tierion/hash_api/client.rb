@@ -115,6 +115,72 @@ module Tierion
           @expires_at >= Time.now.utc
       end
 
+      def create_block_subscription(callback_url)
+        auth_refresh unless logged_in?
+        options = {
+          body: { 'callbackUrl' => callback_url },
+          headers: { 'Authorization' => "Bearer #{@access_token}" }
+        }
+        response = self.class.post('/blocksubscriptions', options)
+
+        if response.success?
+          parsed = response.parsed_response
+          Hashie.symbolize_keys!(parsed)
+          return parsed
+        else
+          raise_error(response)
+        end
+      end
+
+      def get_block_subscription(id)
+        auth_refresh unless logged_in?
+        options = {
+          headers: { 'Authorization' => "Bearer #{@access_token}" }
+        }
+        response = self.class.get("/blocksubscriptions/#{id}", options)
+
+        if response.success?
+          parsed = response.parsed_response
+          Hashie.symbolize_keys!(parsed)
+          return parsed
+        else
+          raise_error(response)
+        end
+      end
+
+      def update_block_subscription(id, callback_url)
+        auth_refresh unless logged_in?
+        options = {
+          body: { 'callbackUrl' => callback_url },
+          headers: { 'Authorization' => "Bearer #{@access_token}" }
+        }
+        response = self.class.put("/blocksubscriptions/#{id}", options)
+
+        if response.success?
+          parsed = response.parsed_response
+          Hashie.symbolize_keys!(parsed)
+          return parsed
+        else
+          raise_error(response)
+        end
+      end
+
+      def delete_block_subscription(id)
+        auth_refresh unless logged_in?
+        options = {
+          headers: { 'Authorization' => "Bearer #{@access_token}" }
+        }
+        response = self.class.delete("/blocksubscriptions/#{id}", options)
+
+        if response.success?
+          parsed = response.parsed_response
+          Hashie.symbolize_keys!(parsed)
+          return parsed
+        else
+          raise_error(response)
+        end
+      end
+
       private
 
       def raise_error(response)
