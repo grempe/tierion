@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.0.1 (8/6/2016)
+## v1.1.0 (8/6/2016)
 
 - Added `Receipt#valid?` method to verify Merkle tree proof.
 - Validates `Receipt` merkle tree and target hash match on import.
