@@ -98,6 +98,15 @@ an arg to `Client#receipt`
 => Tierion::HashApi::Receipt ...
 ```
 
+You can also retrieve an individual receipt later as long as
+you have the receipt ID and the original SHA256 hash used to
+create it:
+
+```
+> t.receipt_from_id_and_hash('your_receipt_id', 'your_sha256_hash')
+=> Tierion::HashApi::Receipt ...
+```
+
 Or, call `Client#receipts` to loop through each `Hashitem`
 submitted in this session and collect and cache `Receipts`
 for each from the API.

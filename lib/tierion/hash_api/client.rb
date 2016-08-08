@@ -109,6 +109,13 @@ module Tierion
         end
       end
 
+      # Retrieve a receipt from its HashItem#id and the original SHA256 hash
+      # used to create that HashItem.
+      def receipt_from_id_and_hash(id, hash)
+        hi = Tierion::HashApi::HashItem.new(id: id, hash: hash, timestamp: Time.now.utc.to_i)
+        receipt(hi)
+      end
+
       def logged_in?
         @access_token.present? &&
           @refresh_token.present? &&
