@@ -99,10 +99,10 @@ module Tierion
             if h.hash == r.targetHash && r.valid?
               return r
             else
-              raise 'Invalid Receipt returned'
+              raise 'Invalid Receipt. Merkle tree proof validation failed.'
             end
           else
-            raise 'Invalid Receipt found'
+            raise 'Invalid Receipt. Missing type key. Old chainpoint?'
           end
         else
           return nil
