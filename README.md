@@ -253,9 +253,6 @@ interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-You can run the Command Line Interface (CLI) in development
-with `bundle exec exe/tierion`. (TODO : Implement CLI)
-
 The formal release process can be found in [RELEASE.md](https://github.com/grempe/tierion/blob/master/RELEASE.md)
 
 ## Contributing
