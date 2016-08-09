@@ -122,17 +122,17 @@ module Tierion
           @expires_at >= Time.now.utc
       end
 
-      def create_block_subscription(callback_url)
+      # Returns a hash of all subscriptions, with :id, :callbackUrl, :label
+      def get_block_subscriptions
         auth_refresh unless logged_in?
         options = {
-          body: { 'callbackUrl' => callback_url },
           headers: { 'Authorization' => "Bearer #{@access_token}" }
         }
-        response = self.class.post('/blocksubscriptions', options)
+        response = self.class.get("/blocksubscriptions", options)
 
         if response.success?
           parsed = response.parsed_response
-          Hashie.symbolize_keys!(parsed)
+          parsed = parsed.collect{ |s| Hashie.symbolize_keys!(s) }
           return parsed
         else
           raise_error(response)
@@ -155,12 +155,36 @@ module Tierion
         end
       end
 
-      def update_block_subscription(id, callback_url)
+      def create_block_subscription(callback_url, label = nil)
         auth_refresh unless logged_in?
         options = {
           body: { 'callbackUrl' => callback_url },
           headers: { 'Authorization' => "Bearer #{@access_token}" }
         }
+        options[:body]['label'] = label unless label.blank?
+        response = self.class.post('/blocksubscriptions', options)
+
+        if response.success?
+          parsed = response.parsed_response
+          Hashie.symbolize_keys!(parsed)
+          return parsed
+        else
+          raise_error(response)
+        end
+      end
+
+      def update_block_subscription(id, callback_url = nil, label = nil)
+        if callback_url.blank? && label.blank?
+          raise ArgumentError, 'callback_url and label cannot both be blank'
+        end
+
+        auth_refresh unless logged_in?
+        options = {
+          body: {},
+          headers: { 'Authorization' => "Bearer #{@access_token}" }
+        }
+        options[:body].merge!({ 'callbackUrl' => callback_url }) if callback_url.present?
+        options[:body].merge!({ 'label' => label }) if label.present?
         response = self.class.put("/blocksubscriptions/#{id}", options)
 
         if response.success?

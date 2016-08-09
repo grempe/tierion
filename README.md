@@ -227,12 +227,16 @@ web page.
 
 ### Block Subscriptions
 
-You can also create, retrieve, update, and delete 'block subscriptions'.
-
+You can also create, retrieve, update, and delete 'block subscriptions'
+and assign each of them an optional label.
 
 ```
 > t = Tierion::HashApi::Client.new
 => #<Tierion::HashApi::Client ... >
+
+# returns and Array of all subscriptions
+> t.get_block_subscriptions
+=> [{ ... }, { ... }]
 
 # takes a callback URL to receive payload, returns an ID
 > t.create_block_subscription('https://www.rempe.us/foo')

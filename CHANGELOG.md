@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.3.0 (8/9/2016)
+
+- Updated blockchain subscription CRUD methods to support labels and retrieving all subscriptions with `Client#get_block_subscriptions`. You can now have multiple subscription callback endpoints, each with a unique ID.
+
 ## v1.2.0 (8/8/2016)
 
 - Added `Client#receipt_from_id_and_hash` convenience method
