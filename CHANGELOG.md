@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.3.2 (10/18/2016)
+
+- Update to new gem signing cert with 10 year lifetime.
+- Add some README info about installing signed gem
+- Relax version dependencies for development gems
+
 ## v1.3.1 (9/6/2016)
 
 - Merge PR #3, support activesupport 4.x in addition to 5.x
