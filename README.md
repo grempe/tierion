@@ -18,6 +18,55 @@ Or install it yourself as:
 
     $ gem install tierion
 
+### Installation Security : Signed Ruby Gem
+
+This gem is cryptographically signed. To be sure the gem you install hasn’t
+been tampered with you can install it using the following method:
+
+Add my public key (if you haven’t already) as a trusted certificate
+
+```
+# Caveat: Gem certificates are trusted globally, such that adding a
+# cert.pem for one gem automatically trusts all gems signed by that cert.
+gem cert --add <(curl -Ls https://raw.github.com/grempe/tierion/master/certs/gem-public_cert_grempe_2026.pem)
+```
+
+To install, it is possible to specify either `HighSecurity` or `MediumSecurity`
+mode. Since this gem depends on one or more gems that are not cryptographically
+signed you will likely need to use `MediumSecurity`. You should receive a warning
+if any signed gem does not match its signature.
+
+```
+# All dependent gems must be signed and verified.
+gem install tierion -P HighSecurity
+```
+
+```
+# All signed dependent gems must be verified.
+gem install tierion -P MediumSecurity
+```
+
+```
+# Same as above, except Bundler only recognizes
+# the long --trust-policy flag, not the short -P
+bundle --trust-policy MediumSecurity
+```
+
+You can [learn more about security and signed Ruby Gems](http://guides.rubygems.org/security/).
+
+### Installation Security : Signed Git Commits
+
+Most, if not all, of the commits and tags to the repository for this code are
+signed with my PGP/GPG code signing key. I have uploaded my code signing public
+keys to GitHub and you can now verify those signatures with the GitHub UI.
+See [this list of commits](https://github.com/grempe/tierion/commits/master)
+and look for the `Verified` tag next to each commit. You can click on that tag
+for additional information.
+
+You can also clone the repository and verify the signatures locally using your
+own GnuPG installation. You can find my certificates and read about how to conduct
+this verification at [https://www.rempe.us/keys/](https://www.rempe.us/keys/).
+
 ## Usage
 
 Shell commands start with a `$`, Ruby console commands start with `>`.
